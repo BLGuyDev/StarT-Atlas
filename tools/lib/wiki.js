@@ -340,6 +340,7 @@ function renderView(ix, view, file) {
   const head = t => { L.push('# ' + t, '', BODY_MARK, ''); };
   if (view === 'index') {
     head('Star Technology Atlas ' + DASH + ' wiki');
+    L.push('<div class="atlas-demo">', '<video controls preload="metadata" poster="assets/demo-poster.jpg" playsinline>', '<source src="assets/demo.mp4" type="video/mp4">', 'Your browser cannot play this video: <a href="assets/demo.mp4">download the demo</a>.', '</video>', '<p><em>2:37 tour of the Atlas: phased plan, modules, step-by-step builds, bills of materials and the 3D assembly lines (the interactive Atlas runs locally; see <a href="atlas-3d/">how to run it</a>). No sound.</em></p>', '</div>', '');
     L.push('**Pack:** ' + esc(G.pack), '', 'This wiki is the source of truth for the Atlas page data. See [CONTRIBUTING-CONTENT.md](CONTRIBUTING-CONTENT.md).');
     L.push('', '## Eras', '');
     (G.eras || []).forEach(e => L.push('- ' + eraLink(ix, file, e.id) + (e.sub ? ' ' + DASH + ' ' + esc(e.sub) : '')));

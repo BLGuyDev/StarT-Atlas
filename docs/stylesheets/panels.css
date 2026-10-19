@@ -201,3 +201,8 @@
 @media print {
   .md-typeset .gt-panel { break-inside: avoid; box-shadow: none; }
 }
+
+/* Demo video on the home page */
+.atlas-demo { margin: 1rem 0 1.5rem; }
+.atlas-demo video { width: 100%; max-width: 960px; border-radius: 8px; border: 1px solid var(--md-default-fg-color--lightest); background: #0b0f12; }
+.atlas-demo p { font-size: .8rem; margin: .4rem 0 0; opacity: .8; }

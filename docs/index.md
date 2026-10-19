@@ -6,6 +6,14 @@ view: index
 
 <!-- Generated from the front matter by tools/refresh_body.js. Edit the front matter, not this text. -->
 
+<div class="atlas-demo">
+<video controls preload="metadata" poster="assets/demo-poster.jpg" playsinline>
+<source src="assets/demo.mp4" type="video/mp4">
+Your browser cannot play this video: <a href="assets/demo.mp4">download the demo</a>.
+</video>
+<p><em>2:37 tour of the Atlas: phased plan, modules, step-by-step builds, bills of materials and the 3D assembly lines (the interactive Atlas runs locally; see <a href="atlas-3d/">how to run it</a>). No sound.</em></p>
+</div>
+
 **Pack:** Star Technology 1.20.1 · THETA-2-HOTFIX-3 · Default
 
 This wiki is the source of truth for the Atlas page data. See [CONTRIBUTING-CONTENT.md](CONTRIBUTING-CONTENT.md).

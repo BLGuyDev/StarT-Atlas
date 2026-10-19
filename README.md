@@ -1,5 +1,10 @@
 # Star Technology Atlas
 
+[![Star Technology Atlas demo: click for the full 2:37 video](docs/assets/demo-preview.gif)](https://blguydev.github.io/StarT-Atlas/)
+
+> **Watch the demo:** the animation above is a 14-second preview. The **full 2:37 video** (plan, step-by-step builds and 3D lines) plays at the top of the [wiki home page](https://blguydev.github.io/StarT-Atlas/) or can be downloaded directly: [`docs/assets/demo.mp4`](docs/assets/demo.mp4) (17 MB, no sound).
+
+
 An unofficial progression guide for the Minecraft modpack **Star Technology** (GregTech CEu fork "StarT" by the
 StarT Dev Team; official wiki: <https://start-dev-team.github.io/StarT-Wiki/>). It is a fan project and is not
 affiliated with the pack authors (see [NOTICE.md](NOTICE.md)).
