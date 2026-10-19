@@ -66,12 +66,15 @@ from the repo root:
 7. `extract/build_recipes_js.py` - `guia/data/recipes.js` (one recipe per item, BOM closure).
 8. `extract/build_assets.py` - `guia/img/atlas.png`, `guia/data/icons.js`, `guia/img/m/*.png`.
 9. `extract/build_3d.py` - `guia/img/blocks.png` and `guia/data/blocks3d.js`. Rerun after any change to
-   `guia/data/guide*.js` that adds machines.
+   the chain data (`docs/`) that adds machines.
 10. `tools/build_data.js` (if present) - wiki data.
 
 After hand-editing `guia/data/*.js` keep them ASCII (non-ASCII as `\uXXXX`); in `index.html` use `&#N;` entities.
 
 ## Local preview
+
+To see the **3D assembly lines**, follow the step-by-step guide in [docs/atlas-3d.md](docs/atlas-3d.md).
+
 
 ```bash
 scripts/serve.sh          # or ./scripts/serve.ps1 ; same as: cd guia && python -m http.server 8765
