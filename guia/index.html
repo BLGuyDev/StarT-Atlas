@@ -1,0 +1,471 @@
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Star Technology Atlas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky top bar with era tabs; single wide column; visuals first (icons, renders, diagrams) */
+:root{
+  --bg:#e9ece9; --panel:#f7f8f7; --sunk:#dfe3e0; --line:#c9cfcb; --fg:#161a1d; --muted:#56606a; --accent:#b4511a; --ok:#2f8a4a;
+  --node-m:#232c34; --node-m-fg:#f2f5f6; --fluid:#2a78ad; --amber:#c38a10;
+  --t-pre:#8c6e4a; --t-ulv:#7b7f84; --t-lv:#6f8597; --t-mv:#1f9fb3; --t-hv:#c38a10; --t-ev:#8a45c4; --t-iv:#3e5ee0;
+  --t-luv:#c9449f; --t-zpm:#d03b3d; --t-uv:#14897c; --t-uhv:#9b2a2a; --t-uev:#3fa636; --t-uiv:#26753a;
+  --f-display:"Saira Condensed","Arial Narrow",sans-serif; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121619;--panel:#1b2024;--sunk:#0e1215;--line:#2d353b;--fg:#e5e9eb;--muted:#96a1a9;--accent:#f08a3c;--ok:#4cc06b;--node-m:#d6dde1;--node-m-fg:#121619;--fluid:#5fb3e6;--amber:#e3a826;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121619;--panel:#1b2024;--sunk:#0e1215;--line:#2d353b;--fg:#e5e9eb;--muted:#96a1a9;--accent:#f08a3c;--ok:#4cc06b;--node-m:#d6dde1;--node-m-fg:#121619;--fluid:#5fb3e6;--amber:#e3a826;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px 0}
+.top{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+h1{font:700 26px/1 var(--f-display);letter-spacing:.03em;margin:0;text-transform:uppercase}
+.pack{color:var(--muted);font:12px var(--f-mono)}
+#q{margin-left:auto;min-width:0;width:240px;max-width:100%;padding:6px 10px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:4px;font:14px var(--f-body)}
+nav{display:flex;gap:2px;overflow-x:auto;margin-top:8px}
+nav a{white-space:nowrap;text-decoration:none;color:var(--fg);font:600 15px var(--f-display);text-transform:uppercase;letter-spacing:.05em;padding:6px 10px;border-bottom:3px solid transparent;display:flex;align-items:center;gap:6px}
+nav a.on{border-bottom-color:var(--accent)}
+nav .dot{width:9px;height:9px;border-radius:2px}
+main{padding:20px 16px 70px;max-width:1180px;margin:0 auto}
+h2{font:700 40px/1 var(--f-display);text-transform:uppercase;margin:0;text-wrap:balance}
+h3{font:700 20px/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.05em;margin:38px 0 12px;display:flex;align-items:center;gap:10px}
+h3::after{content:"";flex:1;height:1px;background:var(--line)}
+p{max-width:70ch;margin:6px 0}
+.mono{font:12px/1.4 var(--f-mono);color:var(--muted)}
+.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+/* icons */
+.ic{display:inline-block;width:32px;height:32px;background-image:url(img/atlas.png);background-repeat:no-repeat;image-rendering:pixelated;vertical-align:middle;flex:none}
+.ic.s24{width:24px;height:24px}
+.ic.miss{background:var(--sunk);border:1px solid var(--line);border-radius:4px;font:600 10px/30px var(--f-mono);text-align:center;color:var(--muted);overflow:hidden}
+.ic.s24.miss{line-height:22px}
+.slot{display:inline-flex;position:relative;width:40px;height:40px;align-items:center;justify-content:center;background:var(--sunk);border:1px solid var(--line);border-radius:3px}
+.slot .q{position:absolute;right:2px;bottom:0;font:600 11px var(--f-mono);color:var(--fg);text-shadow:0 0 3px var(--panel),0 0 3px var(--panel)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+/* hero */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;border-left:8px solid var(--tc);padding:6px 0 6px 18px;margin-bottom:8px}
+.badge{font:700 14px var(--f-display);letter-spacing:.06em;color:#fff;background:var(--tc);padding:3px 9px;border-radius:3px;display:inline-block}
+.sub{font:13px var(--f-mono);color:var(--muted);margin:4px 0}
+.goal{font-size:18px;max-width:62ch}
+.exit{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.exit b{font:600 12px var(--f-mono);text-transform:uppercase;color:var(--muted)}
+.route{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);padding:10px 14px;border-radius:4px;max-width:80ch;margin-top:10px}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;counter-reset:s}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:10px 12px;counter-increment:s;min-width:0}
+.step .h{display:flex;gap:8px;align-items:baseline;font:700 16px var(--f-display);text-transform:uppercase;letter-spacing:.03em}
+.step .h::before{content:counter(s,decimal-leading-zero);font:500 11px var(--f-mono);color:var(--accent)}
+.step .row{margin:6px 0}
+.step p{font-size:13.5px;color:var(--muted);margin:0}
+.build{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.bi{display:flex;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:6px 8px;min-width:0}
+.bi .t{font-size:12.5px;line-height:1.25;min-width:0}
+.bi .c{font:600 13px var(--f-mono);color:var(--accent)}
+/* diagrams */
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:12px 0}
+.fig.flash{box-shadow:0 0 0 3px var(--ok)}
+.fig.hero-fig{border:2px solid var(--ok)}
+.fig .ttl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:700 18px var(--f-display);text-transform:uppercase;letter-spacing:.03em}
+.inf{font:600 11px var(--f-mono);color:#fff;background:var(--ok);padding:2px 7px;border-radius:3px;letter-spacing:0;text-transform:none}
+.pw{font:600 11px var(--f-mono);color:#fff;background:var(--amber);padding:2px 7px;border-radius:3px;letter-spacing:0;text-transform:none}
+.svgw{overflow-x:auto;margin:8px 0}
+.fig ul{margin:4px 0 0;padding-left:18px;font-size:13.5px;color:var(--muted)}
+.feeds{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 6px}
+.feed{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;text-decoration:none;color:var(--fg);background:var(--sunk);border:1px solid var(--ok);border-radius:4px;padding:2px 8px 2px 4px}
+.feed b{color:var(--ok)}
+.feed:hover{background:var(--panel)}
+.bom{border:1px solid var(--line);border-radius:5px;padding:10px 12px;margin-top:10px;background:var(--bg)}
+.bomhead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px}
+.bomhead b{font:700 15px var(--f-display);text-transform:uppercase;letter-spacing:.04em}
+.qty{display:inline-flex;align-items:center;gap:4px}
+.qty button{width:30px;height:30px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:4px;font:700 16px var(--f-mono);cursor:pointer}
+.qty input{width:64px;height:30px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:4px;text-align:center;font:600 14px var(--f-mono)}
+.bomrow{display:grid;grid-template-columns:110px 1fr;gap:8px;align-items:start;margin:6px 0}
+.bl{font:600 12px var(--f-mono);text-transform:uppercase;color:var(--muted);padding-top:10px}
+.how{margin-top:10px}.how ol{margin:6px 0 0;padding-left:22px;display:grid;gap:8px}
+.how li{font-size:14px}.how li .row{margin-right:6px;display:inline-flex;vertical-align:middle}
+.ttl2{font:700 15px var(--f-display);text-transform:uppercase;letter-spacing:.04em}
+.calc{margin-top:10px;border:1px solid var(--amber);border-radius:5px;padding:10px 12px;background:var(--bg)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px;margin:8px 0}
+.mtab{width:auto;margin:4px 0 8px;font-size:12.5px}.mtab th,.mtab td{padding:3px 10px 3px 0;border:0}
+.mtab input{width:64px;height:28px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:4px;font:600 13px var(--f-mono);text-align:right;padding:0 6px}
+.cf{display:flex;align-items:center;gap:6px;font-size:12.5px}.cf .lbl{flex:1;min-width:0}
+.cf input{width:72px;height:28px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:4px;font:600 13px var(--f-mono);text-align:right;padding:0 6px}
+.cout b{font:700 20px var(--f-display)}
+.pill{display:inline-block;font:600 11px var(--f-mono);padding:2px 8px;border-radius:10px;color:#fff}
+.okp{background:var(--ok)}.badp{background:#c0392b}
+.opt h4{margin-top:6px}
+.card.opt{scroll-margin-top:120px}
+.card.opt.wide{grid-column:1/-1;border-color:var(--accent)}
+.card.opt.wide .ohd{display:flex;flex-wrap:wrap;align-items:center;gap:2px 16px}
+.card.opt.wide .ohd h4{margin:0;flex-basis:100%}
+.card.opt.wide .ohd p{margin:0}
+.card.opt.wide .fig{border:0;padding:0;margin:10px 0 0;background:none}
+.pill.mine{background:var(--amber);margin-left:4px}
+@media (max-width:620px){.bomrow{grid-template-columns:1fr}.bl{padding-top:0}}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.lg{font:500 11px var(--f-mono);padding:2px 8px;border-radius:3px;border:1.5px solid var(--line);color:var(--fg)}
+/* multis */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.mcard{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.mcard h4{margin:0;font:700 19px/1.1 var(--f-display);text-transform:uppercase}
+.mhead{display:flex;gap:10px;align-items:center}
+.render{background:radial-gradient(ellipse at 50% 60%,var(--sunk),transparent 70%);display:flex;justify-content:center;align-items:center;min-height:120px;border-radius:4px}
+.render img{image-rendering:pixelated;max-width:100%;height:auto}
+.struct{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
+.sb{display:flex;gap:6px;align-items:center;min-width:0}
+.sb .t{font-size:12px;line-height:1.2;min-width:0}
+.sb .acc{font:11px var(--f-mono);color:var(--muted)}
+.chip{display:inline-block;font:500 11px var(--f-mono);padding:1px 6px;border-radius:3px;border:1px solid var(--line);color:var(--muted)}
+.tierchip{color:#fff;border:0;background:var(--tc)}
+details>summary{cursor:pointer;color:var(--accent);font:600 13px var(--f-body)}
+.recipe{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.grid3{display:grid;grid-template-columns:repeat(3,40px);gap:2px}
+.arrow{font:700 20px var(--f-mono);color:var(--muted)}
+.tool{display:flex;align-items:center;justify-content:center;font:600 9px var(--f-mono);color:var(--muted)}
+/* quests */
+.qi{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);align-items:center}
+.qi input{accent-color:var(--accent);width:18px;height:18px;flex:none}
+.qi .body{min-width:0;flex:1}
+.qi.done .tt{text-decoration:line-through;color:var(--muted)}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;max-width:460px}.bar i{display:block;height:100%;background:var(--accent)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font:600 12px var(--f-mono);text-transform:uppercase;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;min-width:0}
+.card h4{margin:0 0 4px;font:700 17px var(--f-display);text-transform:uppercase}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.filters button{font:500 12px var(--f-mono);padding:4px 9px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:3px;cursor:pointer}
+.filters button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.storage{display:grid;gap:8px}
+.st{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:8px 12px}
+.st .k{font:700 15px var(--f-display);text-transform:uppercase;min-width:110px}
+.pct{display:inline-block;height:6px;background:var(--accent);border-radius:3px;vertical-align:middle}
+.route{list-style:none;padding:0;margin:16px 0;display:grid;gap:12px;max-width:none}
+.rstep{display:grid;grid-template-columns:44px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--tc);border-radius:6px;padding:12px;scroll-margin-top:120px}
+.rstep.mine{border-color:var(--line);border-left-color:var(--ok)}
+.rstep.flash{box-shadow:0 0 0 3px var(--ok)}
+.rnum{width:40px;height:40px;border-radius:50%;background:var(--tc);color:#fff;display:flex;align-items:center;justify-content:center;font:700 20px var(--f-display)}
+.rbody{min-width:0}
+.rhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rt{margin:0;font:700 20px/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.03em}.rt::after{display:none}
+.rgoal{margin:6px 0;font-size:14.5px}
+.rrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0}
+.rlink{font-size:12.5px;text-decoration:none;color:var(--fg);background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:1px 8px}.rlink b{color:var(--accent)}
+.miss{margin:8px 0;border:1px solid var(--amber);border-left-width:4px;border-radius:4px;padding:6px 10px;background:var(--bg)}
+.miss b{font:700 13px var(--f-display);text-transform:uppercase;letter-spacing:.05em;color:var(--amber)}
+.miss ul{margin:4px 0 0;padding-left:18px;font-size:13.5px}
+.rdet{margin-top:6px}.rdet .fig{margin:10px 0}
+.start{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;text-decoration:none;color:var(--fg);background:var(--panel);border:2px solid var(--ok);border-radius:6px;padding:12px 16px;margin-bottom:18px}
+.start b{font:700 20px var(--f-display);text-transform:uppercase;letter-spacing:.03em}.start .go{margin-left:auto;font:700 22px var(--f-mono);color:var(--ok)}
+@media (max-width:620px){.rstep{grid-template-columns:1fr}.rnum{width:32px;height:32px;font-size:16px}}
+.v3bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px}
+.b3d,.b3r{font:600 13px var(--f-body);padding:6px 12px;border-radius:4px;cursor:pointer;border:1px solid var(--ok);background:var(--ok);color:#fff}
+.b3r{background:var(--panel);color:var(--fg);border-color:var(--line);display:none}
+.v3hint{display:none}
+.v3d{display:none;position:relative;height:min(72vh,620px);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:6px 0}
+.v3c{position:absolute;inset:0}
+.is3d .v3d{display:block}.is3d .svgw{display:none}.is3d .b3r,.is3d .v3hint{display:inline-block}
+.is3d .b3d{background:var(--panel);color:var(--fg);border-color:var(--line)}
+.v3tip{position:absolute;display:none;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:2px 8px;font:12px var(--f-body);color:var(--fg);z-index:2}
+.phnav{display:flex;flex-wrap:nowrap;gap:6px;margin:8px 0;padding:6px 2px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;position:sticky;top:var(--hh,60px);z-index:4;background:var(--bg);border-bottom:1px solid var(--line)}
+.phnav a{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;text-decoration:none;color:var(--fg);border:1px solid var(--line);border-left:4px solid var(--tc);border-radius:4px;padding:4px 10px;font:600 13px var(--f-body);background:var(--panel);white-space:nowrap}
+.phnav a b{color:var(--tc)}
+.phnav a .pt{max-width:16ch;overflow:hidden;text-overflow:ellipsis}
+.phnav a i{font:600 11px var(--f-mono);font-style:normal;color:var(--muted)}
+.phnav a.on{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 20%,var(--panel))}
+.pbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.pbtn{display:inline-block;min-height:40px}
+.phase{scroll-margin-top:var(--sm,120px);margin:10px 0;border:1px solid var(--line);border-top:4px solid var(--tc);border-radius:6px}
+.phh{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-right:8px}
+.phh h3{margin:0;flex:1 1 220px;min-width:0}
+.phtog{width:100%;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 12px;background:none;border:0;color:var(--fg);font:700 18px/1.15 var(--f-display);text-align:left;cursor:pointer;text-transform:uppercase}
+.phar{color:var(--tc);transition:transform .15s}.phtog[aria-expanded=true] .phar{transform:rotate(90deg)}
+.pht{flex:1;min-width:0;overflow-wrap:anywhere}
+.phc{font:600 12px var(--f-mono);color:var(--muted);text-transform:none;white-space:nowrap}
+.phera{display:inline-flex;align-items:center;min-height:40px;text-decoration:none}
+.phbody{padding:0 12px 12px}
+.pdone{display:inline-flex;align-items:center;gap:6px;min-height:40px;margin-left:auto;cursor:pointer;font:600 13px var(--f-body)}
+.pdone input{width:20px;height:20px;accent-color:var(--ok)}
+.pmod.isdone{opacity:.72}.pmod.isdone h4{text-decoration:line-through;text-decoration-color:var(--ok)}
+.plist{list-style:none;padding:0;margin:8px 0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;max-width:none}.plist>li,.phbody,.rdet,.rfill{min-width:0;max-width:100%}.rfill{overflow-x:auto}
+.pmod{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--tc);border-radius:6px;padding:12px 14px;scroll-margin-top:var(--sm,120px)}
+.pmod.flash{box-shadow:0 0 0 3px var(--ok)}
+.phd{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.phd h4{margin:0;font:700 20px/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.03em}
+.phd .rnum{width:34px;height:34px;font-size:17px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:8px 16px;margin:10px 0}
+.pl{font:600 11px var(--f-mono);text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.prow{display:flex;flex-wrap:wrap;gap:5px}
+.pchip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:2px 8px 2px 3px;color:var(--fg);text-decoration:none}
+.plink{border-color:var(--ok)}.plink b{font:700 11px var(--f-mono);color:#fff;background:var(--ok);border-radius:3px;padding:0 5px}
+.pval{font:600 13px var(--f-mono)}
+.pfig{margin:8px 0;padding:8px 10px}.pfig .v3bar{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:620px){header{position:static}:root{--hh:0px!important}.phd h4{flex:1 1 140px;min-width:0;font-size:18px;overflow-wrap:anywhere}.pmod{padding:10px}.pchip{max-width:100%;min-height:32px}.pchip span{min-width:0;overflow-wrap:anywhere}.plink{min-height:40px}.b3d,.b3r{min-height:40px}.rdet>summary{padding:10px 0}.phbody{padding:0 8px 10px}.phtog{font-size:16px}}
+@media (max-width:620px){.hero{grid-template-columns:1fr}h2{font-size:32px}.st{flex-wrap:wrap}}
+</style>
+
+<header>
+  <div class="top"><h1>Star Technology Atlas</h1><span class="pack" id="pack"></span>
+  <input id="q" type="search" placeholder="Search machine, item, quest&#8230;" aria-label="Search"></div>
+  <nav id="nav"></nav>
+</header>
+<main id="main"></main>
+
+<!-- Guide data: generated from docs/ by tools/build_data.js -->
+<script src="data/wiki-data.js"></script>
+<script src="data/recipes.js"></script>
+<script src="data/icons.js"></script>
+<script src="data/multis.js"></script>
+<script src="data/quests.js"></script>
+<script>
+const G=window.GUIDE, M=window.MULTIS||[], Q=window.QUESTS||[], IC=window.ICONS||{i:{},n:{},cols:64};
+const MI=Object.fromEntries(M.map(m=>[m.id,m]));
+const ERA_T={stone:'pre',steam:'ulv',lv:'lv',mv:'mv',hv:'hv',ev:'ev',iv:'iv',luv:'luv',zpm:'zpm',uv:'uv',uhv:'uhv',uev:'uev',uiv:'uiv'};
+const ERA_N={stone:'Stone',steam:'Steam',lv:'LV',mv:'MV',hv:'HV',ev:'EV',iv:'IV',luv:'LuV',zpm:'ZPM',uv:'UV',uhv:'UHV',uev:'UEV',uiv:'UIV'};
+const EU={stone:'&#8212;',steam:'8',lv:'32',mv:'128',hv:'512',ev:'2,048',iv:'8,192',luv:'32,768',zpm:'131,072',uv:'524,288',uhv:'2.1M',uev:'8.4M',uiv:'33.5M'};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tc=e=>`var(--t-${ERA_T[e]||'pre'})`;
+document.getElementById('pack').textContent=G.pack;
+
+/* ---------- icons ---------- */
+function circuitAlias(id){const m=/^#gtceu:circuits\/([a-z]+)$/.exec(id);return m?`kubejs:${m[1]}_universal_circuit`:id}
+function nm(id){return IC.n[id]||IC.n[circuitAlias(id)]||String(id).replace(/^#?[a-z0-9_]+:/,'').replace(/[_/]/g,' ')}
+function icon(id,size=32,title){
+  const real=circuitAlias(id); const k=IC.i[real]; const t=esc(title||nm(id)); const cls=size===24?'ic s24':'ic';
+  if(k==null){const w=nm(id).split(/\s+/).filter(Boolean).map(x=>x[0]).join('').slice(0,3).toUpperCase();return `<span class="${cls} miss" title="${t}" role="img" aria-label="${t}">${esc(w)}</span>`}
+  const sc=size/32, x=(k%IC.cols)*size, y=Math.floor(k/IC.cols)*size;
+  return `<span class="${cls}" title="${t}" role="img" aria-label="${t}" style="background-position:-${x}px -${y}px;background-size:${IC.cols*32*sc}px auto"></span>`}
+const slot=(id,q)=>`<span class="slot">${icon(id)}${q&&q!=1?`<span class="q">${esc(q)}</span>`:''}</span>`;
+
+/* ---------- progress ---------- */
+const done=new Set(); let dbRef=null,saving=false,again=false;
+try{JSON.parse(localStorage.getItem('st-done')||'[]').forEach(x=>done.add(x))}catch(e){}
+async function persist(){try{localStorage.setItem('st-done',JSON.stringify([...done]))}catch(e){}
+  if(!dbRef)return; if(saving){again=true;return} saving=true; try{await dbRef.set({done:[...done]})}catch(e){} saving=false; if(again){again=false;persist()}}
+(async()=>{try{const c=window.claude;if(!c||!c.use)return;const [db,user]=await Promise.all([c.use('db'),c.use('user')]);if(!db||!user)return;
+  const uid=await user.id();if(!uid)return;dbRef=db.doc('data/users/'+uid+'/progress');const s=await dbRef.get();
+  if(s.exists){(s.data().done||[]).forEach(x=>done.add(x));render()}else if(done.size)persist()}catch(e){}})();
+
+/* ---------- diagrams (icon nodes) ---------- */
+const NT={s:['var(--panel)','var(--ok)','',2.4],i:['var(--panel)','var(--line)','',1.4],m:['var(--node-m)','var(--node-m)','',1.4],x:['var(--panel)','var(--muted)','',1.2],f:['var(--panel)','var(--fluid)','5 3',1.8],o:['var(--panel)','var(--accent)','',2.4],p:['var(--panel)','var(--amber)','',2.4]};
+function wrap(t,max){const w=String(t).split(' ');const L=[];let c='';for(const x of w){if((c+' '+x).trim().length>max&&c){L.push(c);c=x}else c=(c+' '+x).trim()}if(c)L.push(c);return L.slice(0,2)}
+function svgIcon(id,x,y,s){const k=IC.i[circuitAlias(id)];if(k==null)return `<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="4" fill="var(--sunk)"/>`;
+  const P=IC.px||32,sx=(k%IC.cols)*P,sy=Math.floor(k/IC.cols)*P;
+  return `<svg x="${x}" y="${y}" width="${s}" height="${s}" viewBox="${sx} ${sy} ${P} ${P}"><image href="img/atlas.png" width="${IC.cols*P}" height="${(IC.rows||(IC.rows=Math.ceil((Math.max(...Object.values(IC.i))+1)/IC.cols)))*P}" style="image-rendering:pixelated"/></svg>`}
+/* Narrow screens (<=620px): same layout engine on swapped axes. Ranks become rows (flow runs top to bottom), a rank wider than the screen
+   wraps into several rows, and the SVG is built to fit `aw` px. Desktop output is untouched. fitDiagrams() re-lays-out when the breakpoint flips. */
+const MQN=matchMedia('(max-width:620px)');
+function diagram(ch,aw,g1){
+  const V=MQN.matches,W=122,H=84,GY=14,DH=V?8:12,CW=118,CH=46,LW=l=>l.length*6.4+12,gp=(a,b)=>V&&(a.dummy||b.dummy)?5:GY;
+  const AV=V?Math.max(200,(aw||Math.min(document.documentElement.clientWidth,620)-62)-4):0,GC=V&&(g1||AV<2*CW+10)?1:2;
+  let N=ch.n.map(([id,l,t,ic,it])=>t==='g'?{id,l,t,ic,items:(it||[]).map(([a,b,q,tt])=>({l:a,ic:b,q:q||'',t:tt||'o'})),w:GC*CW+10,h:Math.ceil((it||[]).length/GC)*CH+8}:({id,l,t,ic,lines:wrap(l,17),w:W,h:H})),by=Object.fromEntries(N.map(n=>[n.id,n]));
+  let E=ch.e.filter(e=>by[e[0]]&&by[e[1]]).map(([a,b,l])=>({a,b,l:l==null?'':String(l)}));
+  /* 4+ end products of one machine collapse into a single output box (icon grid with amounts) instead of a tall stack */
+  N.slice().forEach(n=>{const lv=E.filter(e=>e.a===n.id&&'oxfi'.includes(by[e.b].t)&&!E.some(o=>o.a===e.b)&&E.filter(o=>o.b===e.b).length===1);
+    if(lv.length<4)return;const g={id:'#g'+n.id,t:'g',l:'Outputs',items:lv.map(e=>({...by[e.b],q:e.l})),w:GC*CW+10};g.h=Math.ceil(lv.length/GC)*CH+8;
+    const gone=new Set(lv.map(e=>e.b));N=N.filter(x=>!gone.has(x.id)).concat([g]);E=E.filter(e=>!gone.has(e.b)).concat([{a:n.id,b:g.id,l:''}]);by[g.id]=g});
+  /* 3+ plain ingredients of one machine collapse into a single input box the same way */
+  N.slice().forEach(n=>{if(n.t==='g')return;const lv=E.filter(e=>e.b===n.id&&'ifx'.includes(by[e.a].t)&&!E.some(o=>o.b===e.a)&&E.filter(o=>o.a===e.a).length===1);
+    if(lv.length<3)return;const g={id:'#i'+n.id,t:'g',l:'Inputs',items:lv.map(e=>({...by[e.a],q:e.l})),w:GC*CW+10,inp:1};g.h=Math.ceil(lv.length/GC)*CH+8;
+    const gone=new Set(lv.map(e=>e.a));N=N.filter(x=>!gone.has(x.id)).concat([g]);E=E.filter(e=>!gone.has(e.a)).concat([{a:g.id,b:n.id,l:''}]);by[g.id]=g});
+  N.forEach(n=>n.r=0);
+  for(let k=0;k<N.length;k++)E.forEach(e=>{if(by[e.b].r<by[e.a].r+1)by[e.b].r=Math.min(by[e.a].r+1,N.length)});
+  for(let k=0;k<N.length;k++)N.forEach(n=>{const ts=E.filter(e=>e.a===n.id).map(e=>by[e.b].r);if(ts.length){const r=Math.min(...ts)-1;if(r>n.r)n.r=r}});
+  const used=[...new Set(N.map(n=>n.r))].sort((a,b)=>a-b);N.forEach(n=>n.r=used.indexOf(n.r));
+  /* edges that skip columns get a thin "lane" in every column they cross, so they route through gaps, never over a node */
+  /* abstract axes: p = along the flow (rank position / size ps), c = across it (cross position / size cs). Desktop: p=x, c=y. Narrow: p=y, c=x */
+  const X=(p,c)=>V?[c,p]:[p,c];
+  N.forEach(n=>{n.r0=n.r;n.ps=V?n.h:n.w;n.cs=V?n.w:n.h});
+  let D,cols,res=[],bad=0;const R0=Math.max(...N.map(n=>n.r0));
+  for(let it=0;;it++){
+    if(V){let R=0;for(let r=0;r<=R0;r++){let w=0,k=0;const bd=AV-(res[r]||0);N.forEach(n=>{if(n.r0!==r)return;if(k&&w+GY+n.cs>bd){R++;w=0;k=0}n.r=R;w+=(k?GY:0)+n.cs;k++});R++}}
+    D=[];E.forEach((e,ei)=>{e.via=[];for(let r=by[e.a].r+1;r<by[e.b].r;r++){const d={id:'~'+ei+'_'+r,r,cs:DH,dummy:1,e};e.via.push(d);D.push(d)}});
+    cols=[];N.concat(D).forEach(n=>(cols[n.r]=cols[n.r]||[]).push(n));
+    for(let i=0;i<cols.length;i++)cols[i]=cols[i]||[];
+    if(!V)break;
+    /* a row still wider than the screen (lanes of skipped ranks take room): reserve that much more and re-pack */
+    bad=0;cols.forEach(col=>{const rl=col.filter(n=>!n.dummy),w=rl.reduce((a,n)=>a+n.cs,0)+GY*(rl.length-1)+(col.length-rl.length)*(DH+5);if(w>AV+.5){bad=1;res[rl[0].r0]=(res[rl[0].r0]||0)+w-AV}});
+    if(!bad||it>7)break;
+  }
+  if(bad&&GC>1)return diagram(ch,aw,1);/* still too wide with 2-column Inputs/Outputs boxes: retry with 1 column */
+  const colW=cols.map(c=>Math.max(V?H:W,...c.map(n=>n.ps||0)));D.forEach(d=>d.ps=colW[d.r]);
+  const prevOf=e=>e.via.length?e.via[e.via.length-1]:by[e.a],nextOf=e=>e.via.length?e.via[0]:by[e.b];
+  const pred=n=>n.dummy?[(i=>i?n.e.via[i-1]:by[n.e.a])(n.e.via.indexOf(n))]:E.filter(e=>e.b===n.id).map(prevOf);
+  const cy=n=>n.c+n.cs/2;
+  const maxL=Math.max(0,...E.map(e=>e.l?LW(e.l):0)),GX=V?38:Math.max(64,maxL+30);
+  const colH=col=>col.reduce((s,n,i)=>s+n.cs+(i?gp(col[i-1],n):0),0),TH=Math.max(...cols.map(colH));
+  const place=col=>{let y=(TH-colH(col))/2;col.forEach((n,i)=>{if(i)y+=gp(col[i-1],n);n.c=y;y+=n.cs})};
+  cols.forEach(place);
+  for(let p=0;p<3;p++)cols.forEach((col,ci)=>{if(!ci)return;col.forEach(n=>{const ps=pred(n).map(cy);n.k=ps.length?ps.reduce((a,b)=>a+b)/ps.length:cy(n)});col.sort((a,b)=>a.k-b.k);place(col)});
+  const cx=[];colW.forEach((w,i)=>cx[i]=i?cx[i-1]+colW[i-1]+GX:0);
+  cols.forEach((col,ci)=>col.forEach(n=>n.p=cx[ci]));
+  N.forEach(n=>{[n.x,n.y]=X(n.p,n.c)});
+  /* spread ports so arrows never share an endpoint */
+  N.forEach(n=>{
+    const ins=E.filter(e=>e.b===n.id).sort((p,q)=>cy(prevOf(p))-cy(prevOf(q)));
+    ins.forEach((e,i)=>e.y2=n.c+n.cs*(i+1)/(ins.length+1));
+    const outs=E.filter(e=>e.a===n.id).sort((p,q)=>cy(nextOf(p))-cy(nextOf(q)));
+    outs.forEach((e,i)=>e.y1=n.c+n.cs*(i+1)/(outs.length+1));
+  });
+  const SP=cx[cols.length-1]+colW[cols.length-1]+4,HH=V?SP:Math.max(...N.map(n=>n.y+n.h))+4,WW=V?Math.max(...N.map(n=>n.x+n.w),...D.map(d=>d.c+d.cs))+4:SP;
+  let s=`<svg viewBox="-2 -2 ${WW} ${HH}" width="${WW}" ${V?`data-v="1" data-aw="${AV+4}" style="display:block;margin:0 auto;max-width:${WW>(AV+4)*1.25?'none':'100%'};height:auto"`:'style="max-width:none;height:auto"'} role="img" aria-label="${esc(ch.t)}"><defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--muted)"/></marker></defs>`;
+  const placed=[];let labels='';
+  /* geometry first: every edge as cubic hops joined by straight runs through its lanes, plus sample points */
+  const cub=(a1,b1,a2,b2,t)=>{const m=(a1+a2)/2,u=1-t;return [u*u*u*a1+3*u*u*t*m+3*u*t*t*m+t*t*t*a2,u*u*u*b1+3*u*u*t*b1+3*u*t*t*b2+t*t*t*b2]};
+  E.forEach(e=>{const A=by[e.a],B=by[e.b];
+    e.pts=[[A.p+A.ps,e.y1]];const cr=A.p+colW[A.r];if(cr>A.p+A.ps+1)e.pts.push([cr,e.y1],[cr,e.y1]);e.via.forEach(d=>{e.pts.push([d.p,cy(d)],[d.p+d.ps,cy(d)])});e.pts.push([B.p,e.y2]);
+    e.smp=[];for(let i=0;i<e.pts.length;i+=2){const [a1,b1]=e.pts[i],[a2,b2]=e.pts[i+1];for(let t=0;t<=1;t+=.04)e.smp.push(X(...cub(a1,b1,a2,b2,t)));if(i+2<e.pts.length)for(let x=a2;x<e.pts[i+2][0];x+=6)e.smp.push(X(x,b2))}});
+  const inR=(r,[x,y],m)=>x>r.x-m&&x<r.x+r.w+m&&y>r.y-m&&y<r.y+r.h+m;
+  const cost=(r,e)=>{let c=V&&(r.x<-2||r.x+r.w>WW-2)?100:0;
+    placed.forEach(o=>{if(r.x<o.x+o.w+4&&r.x+r.w+4>o.x&&r.y<o.y+o.h+2&&r.y+r.h+2>o.y)c+=100});
+    N.forEach(n=>{if(r.x<n.x+n.w&&r.x+r.w>n.x&&r.y<n.y+n.h&&r.y+r.h>n.y)c+=100});
+    E.forEach(o=>{if(o!==e&&o.smp.some(p=>inR(r,p,2)))c+=10});return c};
+  E.forEach(e=>{const p=e.pts;
+    let d=`M${X(p[0][0],p[0][1]).join(' ')}`;
+    for(let i=0;i<p.length;i+=2){const [a1,b1]=p[i],[a2,b2]=p[i+1],m=(a1+a2)/2,last=i+2>=p.length;d+=`C${X(m,b1).join(' ')} ${X(m,b2).join(' ')} ${X(last?a2-2:a2,b2).join(' ')}`;if(!last)d+=`L${X(p[i+2][0],p[i+2][1]).join(' ')}`}
+    s+=`<path d="${d}" fill="none" stroke="var(--muted)" stroke-opacity=".7" stroke-width="1.4" marker-end="url(#ar)"/>`;
+    if(!e.l)return;
+    /* label prefers the last hop (next to the machine it feeds), then earlier hops; picks the spot that covers nothing */
+    const w=LW(e.l),h=17,fan=E.filter(o=>o.a===e.a).length>2,fin=E.filter(o=>o.b===e.b).length>2,T=fan?[.72,.62,.82,.5,.9,.38]:fin?[.3,.2,.4,.12,.5,.62]:[.5,.38,.62,.28,.72,.18,.82,.1,.9];let best=null,bc=1e9;
+    for(let i=p.length-2;i>=0&&bc>0;i-=2)for(const t of T){const [px,py]=X(...cub(p[i][0],p[i][1],p[i+1][0],p[i+1][1],t));
+      /* desktop: nudge up/down; narrow: nudge sideways, clear of the vertical line */
+      for(const dy of V?[0,-(w/2+8),w/2+8]:[0,-9,9]){const r=V?{x:px-w/2+dy,y:py-h/2,w,h}:{x:px-w/2,y:py-h/2+dy,w,h},c=cost(r,e)+(i===p.length-2?0:1)+(V?(dy?1:0):Math.abs(dy)/9);if(c<bc){bc=c;best=r}}if(bc<1)break}
+    placed.push(best);
+    labels+=`<rect x="${best.x}" y="${best.y}" width="${w}" height="${h}" rx="3" fill="var(--bg)" stroke="var(--line)"/><text x="${best.x+w/2}" y="${best.y+12.5}" text-anchor="middle" font-size="10.5" font-family="IBM Plex Mono,monospace" fill="var(--fg)">${esc(e.l)}</text>`});
+  N.forEach(n=>{
+    if(n.t==='g'){s+=`<g><title>${n.inp?'Inputs':esc(n.l||'Outputs')}</title><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="6" fill="var(--panel)" stroke="${n.inp?'var(--line)':'var(--accent)'}" stroke-width="${n.inp?1.6:2.4}"/>`;
+      n.items.forEach((it,i)=>{const x=n.x+5+(i%GC)*CW,y=n.y+4+Math.floor(i/GC)*CH,L=wrap(it.l,12),fl=it.t==='f';
+        s+=`<g><title>${esc(it.l+(it.q?' \u00b7 '+it.q:''))}</title><rect x="${x+1}" y="${y+1}" width="${CW-2}" height="${CH-4}" rx="4" fill="var(--sunk)" stroke="${fl?'var(--fluid)':'var(--line)'}" stroke-dasharray="${fl?'4 2':''}"/>`+svgIcon(it.ic,x+5,y+5,32);
+        L.forEach((ln,j)=>s+=`<text x="${x+42}" y="${y+16+j*11}" font-size="10.5" font-family="IBM Plex Sans,sans-serif" font-weight="500" fill="var(--fg)">${esc(ln)}</text>`);
+        if(it.q)s+=`<text x="${x+42}" y="${y+16+L.length*11}" font-size="10" font-family="IBM Plex Mono,monospace" font-weight="600" fill="var(--accent)">${esc(it.q)}</text>`;
+        s+='</g>'});
+      s+='</g>';return}
+    const st=NT[n.t]||NT.x;const fg=n.t==='m'?'var(--node-m-fg)':'var(--fg)';
+    s+=`<g><title>${esc(n.l)}</title><rect x="${n.x}" y="${n.y}" width="${W}" height="${H}" rx="6" fill="${st[0]}" stroke="${st[1]}" stroke-width="${st[3]}" stroke-dasharray="${st[2]}"/>`;
+    if(n.t==='m')s+=`<rect x="${n.x+W/2-22}" y="${n.y+6}" width="44" height="44" rx="5" fill="var(--panel)"/>`;
+    s+=svgIcon(n.ic,n.x+W/2-20,n.y+8,40);
+    n.lines.forEach((ln,i)=>s+=`<text x="${n.x+W/2}" y="${n.y+62+i*12.5}" text-anchor="middle" font-size="11" font-family="IBM Plex Sans,sans-serif" font-weight="${n.t==='m'?600:500}" fill="${fg}">${esc(ln)}</text>`);
+    if(n.t==='s')s+=`<text x="${n.x+W-7}" y="${n.y+15}" text-anchor="end" font-size="14" font-weight="700" fill="var(--ok)">&#8734;</text>`;
+    else if(!E.some(e=>e.b===n.id)&&(G.src||{})[n.ic]&&G.src[n.ic]!==ch._id)s+=`<circle cx="${n.x+W-11}" cy="${n.y+11}" r="7" fill="var(--ok)"/><text x="${n.x+W-11}" y="${n.y+14.5}" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">&#8634;</text>`;
+    s+='</g>'});
+  return s+labels+'</svg>'}
+const LEG=`<div class="legend">${Object.entries(G.legend).map(([k,v])=>{const st=NT[k];return `<span class="lg" style="border-color:${st[1]};${k==='m'?'background:var(--node-m);color:var(--node-m-fg)':''};border-style:${st[2]?'dashed':'solid'}">${v}</span>`}).join('')}</div>`;
+function feeds(c,id){const hasIn=new Set(c.e.map(e=>e[1]));const seen=new Set();const once=c.n.filter(n=>!hasIn.has(n[0])&&(G.once||[]).includes(n[3])).map(n=>`<span class="feed" style="border-color:var(--line)">${icon(n[3],24)}<span>${esc(n[1])}</span><b style="color:var(--muted)">one-time craft</b></span>`).join('');
+  return c.n.filter(n=>!hasIn.has(n[0])&&n[2]!=='s'&&n[2]!=='p'&&(G.src||{})[n[3]]&&G.src[n[3]]!==id&&G.chains[G.src[n[3]]]).filter(n=>{const k=n[3];if(seen.has(k))return false;seen.add(k);return true})
+   .map(n=>`<a class="feed" href="#ch-${G.src[n[3]]}" data-go="${G.src[n[3]]}">${icon(n[3],24)}<span>${esc(n[1])}</span><b>&#8592;</b><span>${esc(G.chains[G.src[n[3]]].t)}</span></a>`).join('')+once}
+function chainHTML(id){const c=G.chains[id];if(!c)return'';c._id=id;const fd=feeds(c,id);
+  return `<figure class="fig ${c.hero?'hero-fig':''}" id="ch-${id}" style="margin-inline:0"><div class="ttl">${esc(c.t)}${c.inf?'<span class="inf">&#8734; self-sustaining</span>':''}${c.power?'<span class="pw">power</span>':''}</div>
+   <div class="svgw">${diagram(c)}</div>
+   ${fd?`<div class="feeds"><span class="mono">&#8634; Inputs come from</span>${fd}</div>`:''}
+   ${c.tips&&c.tips.length?`<ul>${c.tips.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+   ${c.store?`<div class="row" style="margin-top:6px"><span class="mono">Store in</span>${c.store.map(s=>icon(s,24)).join('')}</div>`:''}</figure>`}
+
+/* ---------- recipes & multis ---------- */
+const TOOLS={h:'hammer',w:'wrench',f:'file',d:'screwdr.',s:'saw',r:'mallet',x:'cutter',c:'crowbar',m:'mortar',k:'knife'};
+function gridHTML(r){
+  const rows=r.g.concat(['','','']).slice(0,3).map(x=>(x+'   ').slice(0,3)).join('').split('');
+  const cells=rows.map(c=>{if(!c.trim())return '<span class="slot"></span>';const k=r.k[c];
+    if(k){const id=k[0];if(/tools\//.test(id))return `<span class="slot tool">${esc(id.split('/').pop())}</span>`;return `<span class="slot">${icon(id,32,k[1])}</span>`}
+    if(TOOLS[c])return `<span class="slot tool">${TOOLS[c]}</span>`;return '<span class="slot"></span>'}).join('');
+  return `<div class="recipe"><div class="grid3">${cells}</div><span class="arrow">&#8594;</span>${slot(r._out,r.o)}<span class="chip">crafting</span></div>`}
+function machHTML(r){
+  const ins=r.in.map(([id,n,nm2])=>/tools\//.test(id)?'':slot(id,n)).join('');
+  const fl=(r.fl||[]).map(([a,b,n2])=>`<span class="chip">${esc(b||'')} mB ${esc(n2)}</span>`).join('');
+  const ex=[r.t.replace(/_/g,' '),r.eu?`${r.eu} EU/t`:'',r.circuit?`circuit ${r.circuit}`:''].filter(Boolean).join(' &#183; ');
+  return `<div class="recipe"><div class="row">${ins}${fl}</div><span class="arrow">&#8594;</span>${slot(r._out,r.o)}<span class="chip">${esc(ex)}</span></div>`}
+function recHTML(r,out){r._out=out;return r.g?gridHTML(r):machHTML(r)}
+const HATCH=[['Muffler','gtceu:lv_muffler_hatch'],['Maintenance','gtceu:maintenance_hatch'],['Parallel','gtceu:iv_parallel_hatch'],['Rotor','gtceu:hv_rotor_holder'],['Dynamo','gtceu:lv_energy_output_hatch'],['Energy','gtceu:lv_energy_input_hatch'],['Steam Input','gtceu:steam_input_bus'],['Steam Output','gtceu:steam_output_bus'],['Steam Hatch','gtceu:steam_hatch'],['Input Bus','gtceu:lv_input_bus'],['Output Bus','gtceu:lv_output_bus'],['Input Hatch','gtceu:lv_input_hatch'],['Output Hatch','gtceu:lv_output_hatch'],['Data','gtceu:data_access_hatch'],['Computation','gtceu:computation_data_reception_hatch'],['Object','gtceu:object_holder'],['Passthrough','gtceu:passthrough_hatch_item']];
+function hatchIcon(n){const h=HATCH.find(([k])=>n.includes(k));return h?h[1]:'gtceu:lv_input_bus'}
+function multiHTML(m,open){
+  const sid=m.id.split(':')[1];
+  const struct=m.s.map(s=>`<div class="sb">${slot(s.id||'gtceu:cupronickel_coil_block',s.n)}<div class="t">${esc(s.nm)}${s.min?` <span class="acc">min ${s.min}</span>`:''}${s.h?`<div class="acc">accepts ${esc(s.h.join(', '))}</div>`:''}</div></div>`).join('')
+    +m.hx.map(h=>`<div class="sb">${slot(hatchIcon(h.nm),h.n)}<div class="t">${esc(h.nm)}</div></div>`).join('');
+  const sub=m.s.filter(s=>s.r&&s.r.length).map(s=>`<div><div class="mono">${esc(s.nm)}</div>${s.r.slice(0,1).map(r=>recHTML(r,s.id)).join('')}</div>`).join('');
+  return `<article class="mcard" id="m-${esc(sid)}">
+   <div class="mhead">${icon(m.id)}<div><h4>${esc(m.nm)}</h4><div><span class="chip tierchip" style="--tc:${tc(m.era)}">${ERA_N[m.era]||'late'}</span> <span class="chip">${esc(m.cat)}</span></div></div></div>
+   ${m.img?`<div class="render"><img loading="lazy" src="img/m/${esc(sid)}.png" width="${Math.min(m.w*2,520)}" alt="${esc(m.nm)} structure render"></div>`:''}
+   <div class="struct">${struct}<div class="sb">${slot(m.id,1)}<div class="t">Controller</div></div></div>
+   ${m.r.length?`<details ${open?'open':''}><summary>Controller recipe</summary>${m.r.map(r=>recHTML(r,m.id)).join('')}</details>`:''}
+   ${sub?`<details><summary>Casing & block recipes</summary>${sub}</details>`:''}
+  </article>`}
+
+/* ---------- quests ---------- */
+function questsHTML(era){const qs=Q.filter(q=>q.era===era);if(!qs.length)return'';const d=qs.filter(q=>done.has(q.id)).length;
+  return `<h3>Quest checklist &#183; ${d}/${qs.length}</h3><div class="bar"><i style="width:${100*d/qs.length}%"></i></div>
+  ${qs.map(q=>`<label class="qi ${done.has(q.id)?'done':''}"><input type="checkbox" data-q="${q.id}" ${done.has(q.id)?'checked':''}><div class="row">${q.items.map(i=>slot(i.id,i.n)).join('')}</div><div class="body"><span class="tt"><b>${esc(q.t)}</b></span> ${q.opt?'<span class="chip">optional</span>':''}
+   ${q.d?`<details><summary>quest text</summary><p class="mono" style="max-width:none">${esc(q.d)}</p></details>`:''}</div></label>`).join('')}`}
+
+/* ---------- views ---------- */
+function home(){
+  return `<div class="hero" style="--tc:var(--accent)"><div></div><div><h2>Star Technology Atlas</h2><p class="goal">Every era of the pack: what to build, the exact blocks for every multiblock, self-sustaining production lines, power and logistics.</p></div></div>
+  <h3>Voltage tiers</h3><div class="tw"><table><tr><th>Tier</th><th>EU/t</th><th>Superconductor</th><th>Hull</th><th>Main material</th></tr>
+  ${G.tiers.map(t=>`<tr><td><span class="badge" style="--tc:var(--t-${t.cls})">${t.k}</span></td><td class="n">${t.eu.toLocaleString('en')}</td><td>${t.sc?icon(t.sc):'&#8212;'}</td><td>${icon(t.hull)}</td><td>${icon(t.mat)}</td></tr>`).join('')}</table></div>
+  <h3>Mechanics</h3><div class="cards">${G.mechanics.map(x=>`<div class="card"><div class="row">${icon(x.i)}<h4>${esc(x.t)}</h4></div><p class="mono" style="font-size:13px">${esc(x.d)}</p></div>`).join('')}</div>
+  <h3>Flagship setup</h3>${LEG}${chainHTML(G.flagship||'sieve_auto')}`}
+function mapView(){
+  const T=G.tiers,w=1040,h=330,step=(w-60)/T.length;
+  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" style="max-width:none" role="img" aria-label="Voltage ladder ULV to UIV on a log scale">`;
+  T.forEach((t,i)=>{const lv=Math.log(t.eu/8)/Math.log(4),bh=24+lv*19,x=40+i*step,bw=step-10;
+    s+=`<rect x="${x}" y="${h-46-bh}" width="${bw}" height="${bh}" rx="3" fill="var(--t-${t.cls})"/>`+svgIcon(t.hull,x+bw/2-14,h-46-bh-34,28)+
+    `<text x="${x+bw/2}" y="${h-28}" text-anchor="middle" font-size="14" font-weight="700" font-family="Saira Condensed,sans-serif" fill="var(--fg)">${t.k}</text><text x="${x+bw/2}" y="${h-12}" text-anchor="middle" font-size="10" font-family="IBM Plex Mono,monospace" fill="var(--muted)">${t.eu>=1e6?(t.eu/1048576).toFixed(0)+'M':t.eu>=1e3?(t.eu/1024).toFixed(0)+'k':t.eu}</text>`});
+  s+='</svg>';
+  return `<h2>Progression map</h2><p class="goal">Each tier is &#215;4 the voltage of the last. Bars on a log scale; icon = that tier's machine hull.</p><figure class="fig" style="margin-inline:0"><div class="svgw">${s}</div></figure>
+  <h3>Eras</h3><div class="cards">${G.eras.map(e=>`<a class="card" style="text-decoration:none;color:inherit;border-top:5px solid ${tc(e.id)}" href="#${e.id}"><h4>${esc(e.name)}</h4><div class="mono">${esc(e.sub)}</div><p style="font-size:13.5px">${esc(e.goal)}</p><div class="row"><span class="mono">exit:</span>${(e.exit||[]).map(i=>icon(i,24)).join('')}</div></a>`).join('')}</div>`}
+function eraView(id){
+  const e=G.eras.find(x=>x.id===id);
+  let h=`<div class="hero" style="--tc:${tc(id)}"><div><span class="badge">${ERA_N[id]}</span><div class="mono" style="margin-top:6px">${EU[id]} EU/t</div></div>
+    <div><h2>${esc(e.name)}</h2><div class="sub">${esc(e.sub)}</div><p class="goal">${esc(e.goal)}</p>
+    <div class="exit"><b>Done when you have</b>${(e.exit||[]).map(i=>slot(i)).join('')}</div>${e.route?`<div class="route">${esc(e.route)}</div>`:''}</div></div>`;
+  if(e.steps)h+=`<h3>Path</h3><div class="steps">${e.steps.map(s=>`<div class="step"><div class="h">${esc(s.t)}</div><div class="row">${s.i.map(i=>slot(i)).join('')}</div><p>${esc(s.d)}</p></div>`).join('')}</div>`;
+  if(e.build)h+=`<h3>Build list</h3><div class="build">${e.build.map(b=>`<div class="bi">${icon(b.id)}<div class="t">${esc(nm(b.id))}</div><span class="c">&#215;${esc(b.n)}</span></div>`).join('')}</div>`;
+  const ch=(e.setups||[]);if(ch.length||e.power)h+=`<h3>Automated setups</h3>${LEG}${ch.map(chainHTML).join('')}`;
+  if(e.power)h+=`<h3>Power</h3>${chainHTML(e.power)}`;
+  if(e.storage)h+=`<h3>Storage & transport</h3><div class="storage">${e.storage.map(s=>`<div class="st"><span class="k">${esc(s.k)}</span><div class="row">${s.i.map(i=>icon(i)).join('')}</div><span>${esc(s.v)}</span></div>`).join('')}</div>`;
+  const ms=(e.multis||[]).map(x=>MI[x]).filter(Boolean);
+  if(ms.length)h+=`<h3>Multiblocks &#183; materials</h3><p class="mono">Counts include hatch slots marked &#8220;accepts&#8221;. Click a card section to see recipes.</p><div class="mgrid">${ms.map(m=>multiHTML(m)).join('')}</div>`;
+  return h+questsHTML(id)}
+let mf='all';
+function multisView(){
+  const eras=['all',...Object.keys(ERA_N),'late'];
+  const list=M.filter(m=>mf==='all'||(mf==='late'?!m.era:m.era===mf));
+  return `<h2>Multiblocks</h2><p class="goal">${M.length} multiblocks read from the pack scripts: exact block counts, hatch slots, 3D render and recipes.</p>
+  <div class="filters">${eras.map(e=>`<button data-mf="${e}" class="${mf===e?'on':''}">${e==='all'?'All':e==='late'?'Unlisted':ERA_N[e]}</button>`).join('')}</div>
+  <div class="mgrid">${list.map(m=>multiHTML(m)).join('')}</div>`}
+function resView(){
+  return `<h2>Resources</h2><h3>Sieve drops &#183; string mesh</h3><div class="tw"><table><tr><th>Block</th><th>Drops</th></tr>${G.resources.sieve.map(r=>`<tr><td>${slot(r.b)}</td><td><div class="row">${r.r.map(([id,p])=>`<span class="row" style="gap:3px;margin-right:10px">${icon(id)}<span class="n">${p}%</span></span>`).join('')}</div></td></tr>`).join('')}</table></div>
+  <h3>Mechanical Sieve &#183; 64 in, every 40 s</h3><div class="tw"><table><tr><th>Input &#215;64</th><th>Output</th></tr>${G.resources.mech.map(r=>`<tr><td>${slot(r.b,64)}</td><td><div class="row">${r.r.map(([id,q])=>slot(id,q)).join('')}</div></td></tr>`).join('')}</table></div>
+  <h3>Resource machines</h3>${LEG}${['sieve_block4','power_lapidary','sieve_auto','sieve_sand','sieve_dust','sieve_blackstone','inf_lava','void','rare_residue','slurry','molten_mix','geodes','skystone','drilling','ores'].map(chainHTML).join('')}`}
+function searchView(q){q=q.toLowerCase();
+  const ms=M.filter(m=>(m.nm+m.id).toLowerCase().includes(q)).slice(0,24);
+  const qs=Q.filter(x=>(x.t+x.items.map(i=>i.nm).join(' ')).toLowerCase().includes(q)).slice(0,40);
+  const cs=Object.entries(G.chains).filter(([k,c])=>(c.t+c.n.map(n=>n[1]).join(' ')).toLowerCase().includes(q));
+  return `<h2>&#8220;${esc(q)}&#8221;</h2>${cs.length?`<h3>Setups</h3>${LEG}${cs.map(([k])=>chainHTML(k)).join('')}`:''}
+  ${ms.length?`<h3>Multiblocks</h3><div class="mgrid">${ms.map(m=>multiHTML(m)).join('')}</div>`:''}
+  ${qs.length?`<h3>Quests</h3>${qs.map(x=>`<div class="qi"><div class="row">${x.items.map(i=>slot(i.id,i.n)).join('')}</div><div class="body"><b>${esc(x.t)}</b> <a href="#${x.era}" class="chip tierchip" style="--tc:${tc(x.era)}">${ERA_N[x.era]}</a></div></div>`).join('')}`:''}
+  ${!ms.length&&!qs.length&&!cs.length?'<p>No matches.</p>':''}`}
+
+const VIEWS=[['home','Home'],['map','Map'],...G.eras.map(e=>[e.id,ERA_N[e.id]]),['multis','Multiblocks'],['resources','Resources']];
+function render(){const q=document.getElementById('q').value.trim();const v=(location.hash||'#home').slice(1);
+  document.getElementById('nav').innerHTML=VIEWS.map(([k,l])=>`<a href="#${k}" class="${k===v&&q.length<2?'on':''}">${ERA_N[k]?`<span class="dot" style="background:${tc(k)}"></span>`:''}${l}</a>`).join('');
+  document.getElementById('main').innerHTML=q.length>1?searchView(q):v==='map'?mapView():v==='multis'?multisView():v==='resources'?resView():G.eras.some(e=>e.id===v)?eraView(v):home()}
+document.addEventListener('change',e=>{const id=e.target.dataset&&e.target.dataset.q;if(!id)return;e.target.checked?done.add(id):done.delete(id);persist();const y=scrollY;render();scrollTo(0,y)});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-mf]');if(b){mf=b.dataset.mf;render();return}
+  const g=e.target.closest('[data-go]');if(!g)return;e.preventDefault();const id=g.dataset.go;
+  const goto=()=>{const el=document.getElementById('ch-'+id);if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1600)}};
+  if(document.getElementById('ch-'+id)){goto();return}
+  const era=G.eras.find(x=>(x.setups||[]).includes(id)||x.power===id);if(era){document.getElementById('q').value='';location.hash=era.id;setTimeout(goto,60)}});
+let t;document.getElementById('q').addEventListener('input',()=>{clearTimeout(t);t=setTimeout(render,200)});
+addEventListener('hashchange',()=>{document.getElementById('q').value='';render();scrollTo(0,0)});
+/* diagrams: swap to the top-down layout (and back) when the viewport crosses 620px, or when a narrow one overflows its box; only the .svgw
+   contents are replaced, so open 3D views, BOM multipliers, open details and scroll position are kept */
+function fitDiagrams(){const V=MQN.matches;document.querySelectorAll('figure[id^="ch-"] .svgw').forEach(w=>{const s=w.firstElementChild,c=G.chains[w.closest('figure').id.slice(3)];
+  if(!s||!c||!w.clientWidth)return;const cur=s.hasAttribute('data-v');
+  if(V!==cur||(V&&Math.abs(+s.dataset.aw-w.clientWidth)>1&&s.getBoundingClientRect().width>w.clientWidth+1))w.innerHTML=diagram(c,V?w.clientWidth:0)})}
+{let raf=0,rt=0;const kick=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(fitDiagrams)};
+  MQN.addEventListener('change',kick);addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(kick,150)});document.addEventListener('toggle',kick,true);
+  new MutationObserver(kick).observe(document.getElementById('main'),{childList:true,subtree:true})}
+render();
+</script>
+<script src="data/app2.js"></script>
+<script src="data/route.js"></script>
+<script src="data/blocks3d.js"></script>
+<script src="data/view3d.js"></script>

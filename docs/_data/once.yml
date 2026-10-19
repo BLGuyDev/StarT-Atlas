@@ -1,0 +1,7 @@
+# window.GUIDE.once - edit here; rebuild with: node tools/build_data.js
+value:
+  - kubejs:lv_upgrade_kit
+  - create_new_age:redstone_magnet
+  - gtceu:mv_mixer
+  - minecraft:nether_star
+  - minecraft:soul_campfire

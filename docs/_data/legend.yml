@@ -1,0 +1,9 @@
+# window.GUIDE.legend - edit here; rebuild with: node tools/build_data.js
+value:
+  s: Infinite source
+  i: Input
+  m: Machine
+  x: Intermediate
+  f: Fluid
+  o: Output
+  p: Power

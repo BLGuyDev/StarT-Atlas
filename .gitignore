@@ -1,0 +1,26 @@
+# Generated from the user's own modpack (third-party mod/pack assets): never commit
+guia/data/recipes.js
+guia/data/icons.js
+guia/data/multis.js
+guia/data/quests.js
+guia/data/blocks3d.js
+guia/img/atlas.png
+guia/img/blocks.png
+guia/img/m/
+extract/*.json
+gtsrc/
+
+# Local config / private data
+extract/config.local.json
+discord/
+.claude/
+
+# Tooling
+__pycache__/
+*.pyc
+node_modules/
+site/
+*.log
+Thumbs.db
+desktop.ini
+.DS_Store

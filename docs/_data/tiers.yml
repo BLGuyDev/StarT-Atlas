@@ -1,0 +1,74 @@
+# window.GUIDE.tiers - edit here; rebuild with: node tools/build_data.js
+value:
+  - k: ULV
+    eu: 8
+    cls: ulv
+    sc: null
+    hull: gtceu:ulv_machine_hull
+    mat: gtceu:wrought_iron_ingot
+  - k: LV
+    eu: 32
+    cls: lv
+    sc: gtceu:soul_infused_single_wire
+    hull: gtceu:lv_machine_hull
+    mat: gtceu:steel_ingot
+  - k: MV
+    eu: 128
+    cls: mv
+    sc: gtceu:signalum_single_wire
+    hull: gtceu:mv_machine_hull
+    mat: gtceu:aluminium_ingot
+  - k: HV
+    eu: 512
+    cls: hv
+    sc: gtceu:lumium_single_wire
+    hull: gtceu:hv_machine_hull
+    mat: gtceu:stainless_steel_ingot
+  - k: EV
+    eu: 2048
+    cls: ev
+    sc: gtceu:enderium_single_wire
+    hull: gtceu:ev_machine_hull
+    mat: gtceu:titanium_ingot
+  - k: IV
+    eu: 8192
+    cls: iv
+    sc: gtceu:shellite_single_wire
+    hull: gtceu:iv_machine_hull
+    mat: gtceu:tungsten_steel_ingot
+  - k: LuV
+    eu: 32768
+    cls: luv
+    sc: gtceu:twinite_single_wire
+    hull: gtceu:luv_machine_hull
+    mat: gtceu:rhodium_plated_palladium_ingot
+  - k: ZPM
+    eu: 131072
+    cls: zpm
+    sc: gtceu:dragonsteel_single_wire
+    hull: gtceu:zpm_machine_hull
+    mat: gtceu:naquadah_alloy_ingot
+  - k: UV
+    eu: 524288
+    cls: uv
+    sc: gtceu:prismalium_single_wire
+    hull: gtceu:uv_machine_hull
+    mat: gtceu:darmstadtium_ingot
+  - k: UHV
+    eu: 2097152
+    cls: uhv
+    sc: gtceu:stellarium_single_wire
+    hull: gtceu:uhv_machine_hull
+    mat: gtceu:neutronium_ingot
+  - k: UEV
+    eu: 8388608
+    cls: uev
+    sc: gtceu:ancient_runicalium_single_wire
+    hull: gtceu:uev_machine_hull
+    mat: gtceu:mythrolic_alloy_ingot
+  - k: UIV
+    eu: 33554432
+    cls: uiv
+    sc: gtceu:rhenium_super_composite_alloy_single_wire
+    hull: gtceu:uiv_machine_hull
+    mat: gtceu:chaotixic_alloy_ingot

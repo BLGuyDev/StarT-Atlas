@@ -1,0 +1,183 @@
+# window.GUIDE.route - edit here; rebuild with: node tools/build_data.js
+value:
+  - id: wood
+    era: steam
+    t: Wood farm
+    ic: ["create:mechanical_saw", "minecraft:oak_log"]
+    chains: [tree_farm]
+    mine: 1
+    goal: |-
+      Endless logs: they become charcoal, planks, wood pulp, treated wood and fuel for everything after.
+    miss:
+      - Saws on a moving contraption fell the whole tree in one pass.
+      - |-
+        Put the logs in a drawer from day one: the cutter, coke ovens and fan all pull from it.
+    "n": 1
+  - id: charcoal
+    era: steam
+    t: Charcoal and creosote
+    ic: ["minecraft:charcoal", "gtceu:coke_oven"]
+    chains: [charcoal_fan, charcoal]
+    needs: [wood]
+    mine: 1
+    goal: Fuel for the burners and the steel furnace, plus the only early creosote.
+    miss:
+      - |-
+        Coke ovens are slow for charcoal (1.3 per minute each) but they are the only early creosote: keep two running for treated wood and lubricant.
+      - Create fan blowing through a lava block smelts logs into charcoal on a belt with no fuel at all.
+      - "Sugar cane also works in the coke oven: 8 → 1 charcoal."
+    "n": 2
+  - id: power
+    era: steam
+    t: Steam engines + generator coils
+    ic: ["create:steam_engine", "create_new_age:generator_coil"]
+    chains: [power_steam_engine]
+    sub: [magnets]
+    needs: [charcoal]
+    mine: 1
+    goal: Big Create rotation and FE/EU for every machine after this. Burners eat charcoal; water from an Aqueous Accumulator.
+    miss:
+      - |-
+        Boiler level is the lowest of burners, tank blocks / 4 and water / 10 mB/t: check all three bars with goggles.
+      - Basic Burners must be lit once with flint and steel. Never empower them with a fan (32× fuel).
+      - A coil takes 12 magnets. Start with redstone magnets (no power), upgrade to fluxuated magnetite (force 8) once you have an LV polarizer and bender.
+      - |-
+        Spin the coils at 256 RPM with a speed controller: same magnets, +88 % FE.
+      - One carbon brush handles at most 8 coils.
+    "n": 3
+  - id: sieve1
+    era: lv
+    t: "Sieve zone: cobble → gravel → ore sieve"
+    ic: ["gtceu:stone_barrel", "gtceu:lv_forge_hammer", "gtceu:mechanical_sieve"]
+    chains: [inf_cobble, gravel_hammer]
+    needs: [power]
+    mine: 1
+    goal: Infinite copper, iron, tin, sphalerite and magnetite. Plan room for four sieves side by side from the start.
+    miss:
+      - Stone barrels keep their lava; only 1 B of water per cobble is used.
+      - A drawer buffer (yours holds ~2k gravel) before the sieve keeps it from ever starving.
+      - The string mesh in the sieve’s input bus is never used up, but the structure needs 9 mesh blocks.
+      - One forge hammer (120 gravel/min) outruns one sieve (96/min).
+    "n": 4
+  - id: sieves
+    era: lv
+    t: Sand and dust sieves + diamond power
+    ic: ["minecraft:sand", "minecraft:diamond", "thermal:dynamo_lapidary"]
+    chains: [sieve_block4, power_lapidary]
+    needs: [sieve1]
+    mine: 1
+    goal: Gems, redstone, glowstone, sulfur and pearls; the sand sieve’s diamonds fuel Lapidary Dynamos.
+    miss:
+      - |-
+        16 diamonds per 40 s = 24 per minute; one diamond is 300 000 RF in a Lapidary Dynamo.
+      - An LV Upgrade Kit makes a dynamo 6× stronger (200 → 1 200 RF/t).
+      - Sulfur from the dust sieve is what turns rubber into cured or liquid rubber; redstone becomes red alloy.
+    "n": 5
+  - id: treated
+    era: lv
+    t: Treated wood
+    ic: ["gtceu:treated_wood_planks", "create:spout"]
+    chains: [treated_wood]
+    needs: [wood, charcoal]
+    mine: 1
+    goal: Treated planks, rods and frames for every primitive multiblock (sieves, Large Farm, Large Barrel).
+    miss:
+      - The cutter needs water piped in (or lubricant for double speed).
+      - |-
+        125 mB creosote per plank: one coke-oven log treats 2 planks.
+      - "Store the wood pulp: fertilizer needs it."
+    "n": 6
+  - id: rubber
+    era: lv
+    t: Fertilizer → latex → rubber sheets
+    ic: ["start_core:large_arboreal_extractor", "gtceu:rubber_plate"]
+    chains: [rubber]
+    sub: [fertilizer]
+    needs: [treated, sieves]
+    mine: 1
+    goal: Endless rubber plates and liquid rubber for every cable and conveyor.
+    miss:
+      - Thermal’s small Arboreal Extractor gives nothing here (rubberwood only); use StarT’s Large Arboreal Extractor around a jungle tree you place.
+      - The extractor needs a screw in its input bus; fertilizer only works with an iron screw (250 mB per 20 s instead of 100).
+      - Liquid rubber from the LV chemical reactor (3 rubber + sulfur → 576 mB = 4 plates) beats mixer + press (3 plates) and is what copper cables need.
+    "n": 7
+  - id: obsidian
+    era: lv
+    t: Lava and obsidian
+    ic: ["gtceu:large_stone_barrel", "minecraft:obsidian"]
+    chains: [inf_lava]
+    needs: [sieve1]
+    mine: 1
+    goal: Lava for the fans and barrels, obsidian for later machines.
+    miss:
+      - The soul campfire in the input bus is kept, not burned.
+      - Obsidian mode keeps 1 obsidian + water inside the barrel.
+    "n": 8
+  - id: ingots
+    era: lv
+    t: Ingots, wrought iron, wires, foil
+    ic: ["minecraft:copper_ingot", "gtceu:lv_wiremill"]
+    chains: [ingots]
+    needs: [sieve1]
+    mine: 1
+    goal: Drawers of ingots, wires and foil that every later line pulls from.
+    miss:
+      - Crushed ore from the sieve smelts straight to 1 ingot (furnace or fan blasting).
+      - "Kiln: wrought iron in 2 s with no fuel."
+      - Copper foil needs circuit 10 on the bender (1 copper → 4 foil).
+    "n": 9
+  - id: steel
+    era: lv
+    t: Steel, plates, rods, magnetic rods
+    ic: ["gtceu:solid_blast_furnace", "gtceu:steel_ingot"]
+    chains: [steel, comp_parts]
+    needs: [ingots, charcoal]
+    mine: 1
+    goal: Steel and the rods / plates / magnetic rods every LV component uses, with drawer buffers between machines.
+    miss:
+      - |-
+        The Solid Blast Furnace needs steel to build: the first steel comes from a Primitive Blast Furnace (90 s each).
+      - Wrought iron runs at 16 s per steel, plain iron at 36 s.
+      - |-
+        Lathe: 1 ingot → 2 rods. The iron motor recipe uses iron rods + a magnetic iron rod: no steel needed for motors.
+    "n": 10
+  - id: comps
+    era: lv
+    t: LV component wall
+    ic: ["gtceu:lv_electric_motor", "gtceu:lv_robot_arm"]
+    chains: [comp_stock, comp_wires, comp_motor, comp_piston, comp_conveyor, comp_pump, comp_robot_arm]
+    needs: [steel, rubber, ingots]
+    goal: Motors, pistons, conveyors, pumps and robot arms always in stock.
+    miss:
+      - A Robot Arm cover on Keep Exact (with an item filter) caps each stock; a GT machine with a full output just pauses.
+      - |-
+        Tin cable: wire + 144 mB liquid rubber in the assembler. Copper cable has no hand recipe at all.
+      - Give each assembler one recipe and one circuit so its slots never clog.
+    "n": 11
+  - id: circuits
+    era: lv
+    t: LV circuits
+    ic: ["gtceu:basic_electronic_circuit", "gtceu:lv_circuit_assembler"]
+    chains: [comp_circuit_lv]
+    needs: [comps, rubber]
+    goal: Basic Electronic Circuits on tap.
+    miss:
+      - The Circuit Assembler makes 2 circuits per craft; hand crafting makes 1 and costs a steel plate.
+      - |-
+        A Large Arboreal Extractor built with an oak tree gives resin: resin + charcoal dust in a mixer = glue for boards and resistors.
+      - "Glass tubes: 6 glass panes → 2 by hand."
+    "n": 12
+  - id: mv
+    era: mv
+    t: First MV hull + transformer
+    ic: ["gtceu:mv_machine_hull", "gtceu:lv_transformer_1a"]
+    chains: [mv_hull]
+    needs: [comps, rubber]
+    goal: |-
+      Step into MV without MV power: hand-crafted hull, LV transformer for power.
+    miss:
+      - Copper cables only come from the assembler (wire + 144 mB liquid rubber).
+      - The LV transformer is built from an LV hull, not an MV one.
+      - |-
+        MV machines at full speed draw 128 EU/t: 4 A of LV through the transformer.
+    "n": 13

@@ -1,0 +1,34 @@
+# window.GUIDE.mechanics - edit here; rebuild with: node tools/build_data.js
+value:
+  - i: gtceu:terminal
+    t: Preview & auto-build
+    d: Press U on any controller in EMI for the 3D preview. Shift-right-click a controller with the GT Terminal to place the whole structure from your inventory.
+  - i: gtceu:lv_input_bus
+    t: Hatches replace casings
+    d: Rows marked "accepts" include the slots for buses/hatches. Keep the minimum casing count or it will not form.
+  - i: gtceu:heatproof_machine_casing
+    t: Wall-sharing
+    d: Two multis can share casings, coils and even hatches. Double output for half the build.
+  - i: gtceu:lv_energy_input_hatch
+    t: Overclock
+    d: |-
+      +1 tier = 4× EU/t, 2× speed (perfect OC: 4×). Two energy hatches let a multi reach the next tier — except assemblers.
+  - i: gtceu:programmed_circuit
+    t: Ghost circuits
+    d: Bottom-left slot of every machine. Match the number the recipe asks for.
+  - i: gtceu:lv_input_bus
+    t: Distinct buses
+    d: Each input bus is processed alone — molds and lenses never mix.
+  - i: gtceu:large_chemical_reactor
+    t: LCR circuit 24
+    d: Single-step versions of whole chemical lines (acids, epoxy…).
+  - i: gtceu:iv_parallel_hatch
+    t: Parallels
+    d: N recipes at once. Bound by the tier amperage — two 4A hatches do nothing extra.
+  - i: gtceu:super_ebf
+    t: Boosted multis
+    d: |-
+      Throughput boosting: 4 recipes, +60 % time, −5 % EU/t (≈2.5×). Bulking: 16 recipes, 13× time.
+  - i: gtceu:soul_infused_single_wire
+    t: Superconductors
+    d: Lossless cable per tier. Always use them for power lines.

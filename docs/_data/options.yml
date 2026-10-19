@@ -1,0 +1,270 @@
+# window.GUIDE.options - edit here; rebuild with: node tools/build_data.js
+value:
+  - p: minecraft:charcoal
+    t: Charcoal
+    o:
+      - c: charcoal_fan
+        tier: Steam
+        pow: Rotation + lava block
+        rate: A belt stack at a time
+        pro: No fuel, no power, 1 log → 1 charcoal
+        con: No creosote
+        best: Steam & LV
+      - c: charcoal_pyro
+        tier: MV
+        pow: "64 EU/t"
+        rate: "20 charcoal + 4 B creosote per 16 logs / 32 s"
+        pro: |-
+          +25 % charcoal, lots of creosote; other circuits: wood gas, tar, vinegar
+        con: Needs MV
+        best: MV onwards
+      - c: charcoal
+        tier: Stone
+        pow: None
+        rate: "1.3 charcoal / min per oven"
+        pro: The only early creosote
+        con: Slow; build it for creosote, not charcoal
+      - c: charcoal_pile
+        tier: Stone
+        pow: None
+        rate: Huge batches
+        pro: Very early bulk charcoal
+        con: Mined by hand
+  - p: minecraft:oak_log
+    t: Logs
+    o:
+      - c: tree_farm
+        tier: Steam
+        pow: Rotation
+        rate: Depends on arm size
+        pro: No GT power; saplings and apples too
+        con: Large build, slow to plant
+        best: Steam age
+      - c: greenhouse_logs
+        tier: LV
+        pow: "30 EU/t"
+        rate: "32 logs / min (128 with CO₂, 256 with NPK)"
+        pro: Compact, day and night, any tree; CO₂ mode also gives oxygen
+        con: MV circuit to build; CO₂ mode needs an MV distillery
+        best: LV onwards
+  - p: minecraft:cobblestone
+    t: Cobblestone
+    o:
+      - c: inf_cobble
+        tier: Stone
+        pow: None
+        rate: "80 per minute per barrel"
+        pro: Cheapest, also blackstone/obsidian
+        con: Needs a water input
+        best: Always
+      - c: cobble_drill
+        tier: Steam
+        pow: Rotation
+        rate: Scales with RPM
+        pro: Pure Create
+        con: Lava + water sources in world
+      - c: cobble_rb
+        tier: LV
+        pow: LV
+        rate: Fast, scales with tier
+        pro: Compact, no inputs
+        con: Uses EU
+  - p: minecraft:gravel
+    t: Gravel, sand & dust
+    o:
+      - c: gravel_steam
+        tier: Steam
+        pow: Steam 32 mB/t
+        rate: "0.5 s per block"
+        pro: One block, no SU; also sand and dust
+        con: Boilers need charcoal + water
+        best: Steam age
+      - c: gravel_hammer
+        tier: LV
+        pow: "16 EU/t each"
+        rate: "0.5 s per block per hammer"
+        pro: All three blocks in a row
+        con: Uses EU
+        best: LV onwards
+      - c: inf_gravel_create
+        tier: Steam
+        pow: Rotation
+        rate: A stack at a time
+        pro: Only if you already have spare SU
+        con: "2 wheels + big SU load for gravel only"
+  - p: gtceu:crushed_iron_ore
+    t: Crushed ores
+    o:
+      - c: sieve_manual
+        tier: Stone
+        pow: You
+        rate: Click by click
+        pro: Day one
+        con: Manual
+      - c: sieve_block4
+        tier: LV
+        pow: "≈ 210 EU/t (own diamonds)"
+        rate: "4 sieves · 64 each / 40 s"
+        pro: Ores, gems, redstone/sulfur and lead/antimony in one block; powers itself
+        con: Needs a Lapidary Dynamo + LV kit (or the steam option meanwhile)
+        best: LV onwards
+      - c: sieve_auto
+        tier: LV
+        pow: "128-sail windmill"
+        rate: "16 of each ore / 40 s"
+        pro: No fuel, no diamonds
+        con: Huge windmill for one sieve (31.5 EU/t)
+        mine: true
+      - c: void
+        tier: LV
+        pow: LV
+        rate: "32 s per cycle"
+        pro: Ores the sieves never give + rare fluids
+        con: Needs drilling fluid
+  - p: minecraft:wheat
+    t: Crops
+    o:
+      - c: crop_farm
+        tier: Steam
+        pow: None
+        rate: "16 / 40 s, daytime only"
+        pro: No power, treated wood only
+        con: Stops at night
+      - c: crop_greenhouse
+        tier: LV
+        pow: "16 EU/t"
+        rate: "64 / 30 s with fertilizer"
+        pro: "5× a Large Farm, day and night"
+        con: Greenhouse needs an MV circuit; fertilizer 1.5 / min
+        best: LV onwards
+  - p: gtceu:bronze_ingot
+    t: Alloys
+    o:
+      - c: alloys_smelter
+        tier: Steam
+        pow: Steam 32 mB/t
+        rate: "4 bronze / 10 s"
+        pro: "+33 % bronze & brass, +50 % invar, 2× tin alloy"
+        con: Needs a boiler
+        best: Steam onwards
+      - c: alloys
+        tier: Steam
+        pow: Rotation + Basic Burner
+        rate: "3 bronze per mix"
+        pro: Also makes soul infused
+        con: Loses a quarter of the metal
+  - p: gtceu:steel_ingot
+    t: Steel
+    o:
+      - c: steel_pbf
+        tier: Steam
+        pow: None
+        rate: "1 / 90 s"
+        pro: Firebricks only
+        con: Very slow; only for the first steel
+      - c: steel
+        tier: Steam
+        pow: None
+        rate: "1 / 16 s (12 s with coke)"
+        pro: No power; blocks mode for bulk
+        con: "2 charcoal per steel"
+        best: Steam → HV
+      - c: steel_ebf
+        tier: MV
+        pow: "120 EU/t + 200 mB O₂"
+        rate: "1 / 15 s (7.5 s at HV)"
+        pro: No charcoal
+        con: Only worth it once oxygen is free
+  - p: minecraft:lava_bucket
+    t: Lava
+    o:
+      - c: inf_lava
+        tier: Steam
+        pow: None
+        rate: "500 mB / 10 s per cobble"
+        pro: Automatic with buses
+        con: Multiblock to build
+        best: Always
+  - p: thermal:rubber
+    t: Rubber
+    o:
+      - c: rubber
+        tier: Steam
+        pow: None
+        rate: "1.2 rubber / min (3 with fertilizer) per extractor"
+        pro: No power, cheap bricks, scales by copying
+        con: Solidifier + chemical reactor need LV
+        best: Always (until chemical rubbers)
+  - p: create:steam_engine
+    t: Rotation (Create SU)
+    o:
+      - c: power_steam_engine
+        tier: Steam
+        pow: Any furnace fuel
+        rate: "16 384 SU per burner + engine"
+        pro: Small, strong, cheap fuel
+        con: Needs fuel and water
+        best: Always
+      - c: create_power
+        tier: Stone
+        pow: Wind
+        rate: "512 SU per windmill RPM (8 192 max)"
+        pro: No fuel at all
+        con: "128 sails for half of one steam engine"
+  - p: thermal:dynamo_stirling
+    t: Power (EU)
+    o:
+      - c: power_lapidary
+        tier: LV
+        pow: Diamonds from your own sand sieve
+        rate: "300 EU/t per dynamo, 5 per sieve"
+        pro: Self-fed, tiny, scales to ~1 500 EU/t per sand sieve
+        con: Lapidary Dynamo needs cobalt brass; LV kit per dynamo
+        best: LV onwards
+      - c: power_steam_engine
+        tier: Steam
+        pow: "≈ 2.25 charcoal/min"
+        rate: "≈ 307 EU/t (3 engines, 4 coils)"
+        pro: Big power before LV kits; the SU also runs Create machines
+        con: Needs a charcoal farm and a water pump
+        best: Steam / early LV
+      - c: power_newage
+        tier: Steam
+        pow: Windmill
+        rate: RPM × magnets / 20 FE/t
+        pro: No fuel at all
+        con: "128 sails → only ~31 EU/t"
+      - c: power_lv
+        tier: LV
+        pow: Charcoal / diamonds
+        rate: "×6 with LV kits"
+        pro: Stirling works on any furnace fuel
+        con: Stirling burns fuel fast; prefer Lapidary
+      - c: power_steam
+        tier: LV
+        pow: Charcoal
+        rate: Per turbine
+        pro: EU directly, no converter
+        con: Water + fuel logistics
+  - p: gtceu:lv_electric_motor
+    t: Components (LV)
+    o:
+      - c: comp_stock
+        tier: LV
+        pow: under ~350 EU/t
+        rate: "12 per minute per line"
+        pro: Parts always in stock, no AE2 needed
+        con: Many machines and covers
+        best: LV onwards
+      - c: comp_motor
+        tier: LV
+        pow: "30 EU/t"
+        rate: "1 motor / 5 s"
+        pro: Feeds every other component
+        con: "—"
+      - c: comp_circuit_lv
+        tier: LV
+        pow: "16 EU/t"
+        rate: "2 circuits / 10 s"
+        pro: Twice what hand crafting gives
+        con: Needs a glue (resin) source

@@ -1,0 +1,19 @@
+# Top-level GUIDE scalars and the key order of window.GUIDE (used by tools/build_data.js).
+pack: Star Technology 1.20.1 · THETA-2-HOTFIX-3 · Default
+flagship: sieve_block4
+key_order:
+  - pack
+  - tiers
+  - mechanics
+  - legend
+  - eras
+  - chains
+  - resources
+  - src
+  - once
+  - options
+  - optOf
+  - flagship
+  - route
+  - phases
+  - plan
