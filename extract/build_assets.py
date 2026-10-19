@@ -19,17 +19,10 @@ def load_js(fn, var):
 
 Q = load_js("quests.js", "QUESTS")
 M = load_js("multis.js", "MULTIS")
-import glob
-guide = "".join(open(p, encoding="utf-8").read() for p in sorted(glob.glob(os.path.join(G, "data", "guide*.js"))))
-
-ids = set(re.findall(r"'([a-z0-9_]+:[a-z0-9_./]+)'", guide))
+from common import guide_ids
+ids = set(guide_ids()[0])  # every item id in guia/data/wiki-data.js (the guide data built from docs/)
 for _fn in ("app2.js", "route.js", "view3d.js"):  # ids written literally in the page scripts (e.g. the magnet table in app2.js)
     ids |= set(re.findall(r"'([a-z0-9_]+:[a-z0-9_./]+)'", open(os.path.join(G, "data", _fn), encoding="utf-8").read()))
-import subprocess
-try:
-    ids |= set(json.loads(subprocess.run(["node", os.path.join(HERE, "guide_ids.js")], capture_output=True, text=True, encoding="utf-8", check=True).stdout))
-except Exception as e:
-    print("guide_ids.js failed", e)
 for q in Q:
     for it in q["items"]:
         ids.add(it["id"])

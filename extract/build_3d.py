@@ -2,7 +2,7 @@
 - img/blocks.png: 32 px face atlas (top, side, front per block) for every machine/structure block the guide places.
 - data/blocks3d.js: window.BLOCKS3D = {cols, px, f: {id: [top, side, front]}, s: {multi_id: {d:[w,h,l], b:[[x,y,z,key],...], k:{key: block_id}}}}
 Faces come from the pack's own block models (icons.block_faces / controller_faces); items without a block model fall back to their icon.
-Run after build_assets.py (needs guide*.js, multis.json)."""
+Run after build_assets.py (needs guia/data/wiki-data.js, multis.json)."""
 import json, os, re, sys
 from PIL import Image
 sys.path.insert(0, os.path.dirname(__file__))
@@ -13,12 +13,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 G = GUIA
 PX = 32
 
-import glob
-guide = "".join(open(p, encoding="utf-8").read() for p in sorted(glob.glob(os.path.join(G, "data", "guide*.js"))))
-# machine-ish nodes: ['key', 'label', 'm'|'p'|'s', 'id'] plus every id the BOMs mention
-node_ids = set(re.findall(r"\['[a-z0-9_]+',\s*'[^']*',\s*'[mps]',\s*'([a-z0-9_]+:[a-z0-9_./]+)'", guide))
-# ids placed in hand-built scenes: ['mod:id', x, y, z, ...]
-node_ids |= set(re.findall(r"\['([a-z0-9_]+:[a-z0-9_./]+)',\s*-?\d", guide))
+from common import guide_ids, require_pack
+# machine-ish nodes ['key', 'label', 'm'|'p'|'s', 'id'] and ids placed in hand-built scenes ['mod:id', x, y, z, ...]
+# of guia/data/wiki-data.js (the guide data built from docs/)
+node_ids = set(guide_ids()[1])
 EXTRA = ["functionalstorage:oak_1", "create:fluid_tank", "minecraft:smooth_stone", "pipez:item_pipe", "pipez:fluid_pipe", "gtceu:tin_single_cable",
          "create:shaft", "create:belt_connector", "minecraft:water", "minecraft:lava", "gtceu:lv_machine_casing", "create:andesite_casing"]
 raw = {m["id"]: m for m in json.load(open(os.path.join(HERE, "multis.json"), encoding="utf-8"))}
@@ -52,7 +50,7 @@ for mid in sorted(node_ids):
 
 # KubeJS blocks: .create('name') ... .textureAll('tex'); KubeJS machines: workableCasingModel(casing, overlays)
 KJS_TEX = {}
-for root, _, files in os.walk(os.path.join(HERE, "..", "..", "kubejs", "startup_scripts")):
+for root, _, files in os.walk(os.path.join(require_pack(), "kubejs", "startup_scripts")):
     for fn in files:
         if not fn.endswith(".js"):
             continue

@@ -35,14 +35,14 @@ Details: [docs/CONTRIBUTING-CONTENT.md](docs/CONTRIBUTING-CONTENT.md). General r
 ## Build the Atlas data from your own pack
 
 Requirements: Python 3.10+ with `pip install -r requirements-extract.txt` (Pillow, numpy), Node.js (used by
-`extract/guide_ids.js`), and a Star Technology instance (e.g. a CurseForge instance folder containing `mods/` and
+`tools/build_data.js`), and a Star Technology instance (e.g. a CurseForge instance folder containing `mods/` and
 `kubejs/`). The vanilla 1.20.1 jar is looked up in the CurseForge layout (`../../Install/versions/1.20.1/1.20.1.jar`
 relative to the instance); otherwise set `STAR_VANILLA_JAR`.
 
 ```powershell
-# PowerShell
+# PowerShell, from the repo folder (or just double-click Start-Atlas.bat)
 $env:STAR_PACK_DIR = 'D:/path/to/Star Technology'
-./scripts/build_all.ps1
+.\scripts\build_all.ps1
 ```
 ```bash
 # bash
@@ -67,18 +67,27 @@ from the repo root:
 8. `extract/build_assets.py` - `guia/img/atlas.png`, `guia/data/icons.js`, `guia/img/m/*.png`.
 9. `extract/build_3d.py` - `guia/img/blocks.png` and `guia/data/blocks3d.js`. Rerun after any change to
    the chain data (`docs/`) that adds machines.
-10. `tools/build_data.js` (if present) - wiki data.
+0. (runs first) `tools/build_data.js` - `guia/data/wiki-data.js` from `docs/`; steps 7-9 read the item ids it lists.
 
 After hand-editing `guia/data/*.js` keep them ASCII (non-ASCII as `\uXXXX`); in `index.html` use `&#N;` entities.
 
 ## Local preview
 
-To see the **3D assembly lines**, follow the step-by-step guide in [docs/atlas-3d.md](docs/atlas-3d.md).
+**Windows: double-click `Start-Atlas.bat`.** It checks Python and Node.js, finds (or asks for) your Star Technology
+folder, builds the data the first time, starts the web server and opens the Atlas in your browser. Use
+`Rebuild-Atlas-Data.bat` to force a full data rebuild. No terminal needed; see
+[docs/atlas-3d.md](docs/atlas-3d.md) for the picture-by-picture guide, common mistakes and the 3D controls.
 
+From a terminal instead (Linux/macOS/Git Bash, or PowerShell after `cd` to the repo folder):
 
 ```bash
-scripts/serve.sh          # or ./scripts/serve.ps1 ; same as: cd guia && python -m http.server 8765
+scripts/serve.sh          # or .\scripts\serve.ps1 ; same as: cd guia && python -m http.server 8765
 # open http://127.0.0.1:8765/index.html
+```
+
+Wiki site preview:
+
+```bash
 pip install -r requirements.txt
 mkdocs serve              # wiki at http://127.0.0.1:8000
 ```

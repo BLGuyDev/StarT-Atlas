@@ -17,6 +17,13 @@ fi
 
 run() { echo; echo "== $*"; "$@"; }
 
+# 0 wiki data (guia/data/wiki-data.js, from docs/): the asset steps below read the item ids it lists
+if [ -f tools/build_data.js ]; then
+  run node tools/build_data.js
+else
+  echo "NOTE: tools/build_data.js not found - wiki data step NOT run."
+fi
+
 run python extract/names.py             # 1 names.json
 run python extract/extract_multis.py    # 2 multis.json
 run python extract/extract_recipes.py   # 3 recipes.json
@@ -27,9 +34,4 @@ run python extract/build_recipes_js.py  # 7 guia/data/recipes.js
 run python extract/build_assets.py      # 8 guia/img/atlas.png + data/icons.js + img/m/
 run python extract/build_3d.py          # 9 guia/img/blocks.png + data/blocks3d.js
 
-if [ -f tools/build_data.js ]; then
-  run node tools/build_data.js          # 10 wiki data (tools/)
-else
-  echo "NOTE: tools/build_data.js not found - wiki data step NOT run."
-fi
 echo; echo "Done."

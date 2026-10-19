@@ -64,6 +64,52 @@ def vanilla_jar():
     return p
 
 
+_ID_RX = re.compile(r"^[a-z0-9_]+:[a-z0-9_./]+$")
+
+
+def load_guide():
+    """window.GUIDE from guia/data/wiki-data.js (built by tools/build_data.js from docs/); {} if the file is missing."""
+    p = os.path.join(DATA_DIR, "wiki-data.js")
+    if not os.path.isfile(p):
+        return {}
+    t = open(p, encoding="utf-8").read()
+    i = t.index("window.GUIDE")
+    t = t[t.index("=", i) + 1:].lstrip()
+    return json.JSONDecoder().raw_decode(t)[0]
+
+
+def guide_ids():
+    """(all_ids, node_ids): every item id mentioned anywhere in the guide data, and the ids of its machine nodes
+    (type m/p/s) plus every ['mod:id', number, ...] entry (BOMs and the blocks of hand-built 3D scenes)."""
+    allids, nodes = set(), set()
+
+    def walk(o):
+        if isinstance(o, str):
+            if _ID_RX.match(o):
+                allids.add(o)
+        elif isinstance(o, dict):
+            for k, v in o.items():
+                if _ID_RX.match(k):
+                    allids.add(k)
+                walk(v)
+        elif isinstance(o, list):
+            # ['mod:id', 4, ...]: BOM entries and hand-built scene blocks (the 3D viewer needs faces for them too)
+            if len(o) > 1 and isinstance(o[0], str) and _ID_RX.match(o[0]) and isinstance(o[1], (int, float)):
+                nodes.add(o[0])
+            for v in o:
+                walk(v)
+    G = load_guide()
+    walk(G)
+    for c in (G.get("chains") or {}).values():
+        for n in c.get("n", []):
+            if len(n) > 3 and n[2] in ("m", "p", "s") and _ID_RX.match(n[3]):
+                nodes.add(n[3])
+        for b in (c.get("s3d") or {}).get("b", []):
+            if b and isinstance(b[0], str) and _ID_RX.match(b[0]):
+                nodes.add(b[0])
+    return allids, nodes
+
+
 BASE = PACK_DIR  # may be None; scripts that need the pack call require_pack()
 _NF = os.path.join(HERE, "names.json")
 _D = json.load(open(_NF, encoding="utf-8")) if os.path.isfile(_NF) else {"names": {}, "materials": {}, "prefixes": {}}

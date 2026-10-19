@@ -199,12 +199,8 @@ def load_js(fn):
     return t
 
 
-need = set()
-import glob
-for fn in sorted(os.path.basename(p) for p in glob.glob(os.path.join(G, "data", "guide*.js"))):
-    p = os.path.join(G, "data", fn)
-    if os.path.exists(p):
-        need |= set(re.findall(r"'([a-z0-9_]+:[a-z0-9_./]+)'", open(p, encoding="utf-8").read()))
+from common import guide_ids
+need = set(guide_ids()[0])  # every item id in guia/data/wiki-data.js (the guide data built from docs/)
 M = json.loads(load_js("multis.js").split("=", 1)[1].rstrip().rstrip(";"))
 for m in M:
     need.add(m["id"])
